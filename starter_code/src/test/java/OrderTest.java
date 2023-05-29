@@ -81,7 +81,6 @@ public class OrderTest {
         assertEquals(200, ordersForUser.getStatusCodeValue());
         List<UserOrder> orders = ordersForUser.getBody();
         assertNotNull(orders);
-
     }
 
     @Test
@@ -90,6 +89,5 @@ public class OrderTest {
         ResponseEntity<List<UserOrder>> ordersForUser = orderController.getOrdersForUser("user");
         assertNotNull(ordersForUser);
         assertEquals(404, ordersForUser.getStatusCodeValue());
-
     }
 }

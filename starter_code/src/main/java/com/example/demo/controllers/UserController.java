@@ -48,28 +48,36 @@ public class UserController {
 	public ResponseEntity<User> findByUserName(@PathVariable String username) {
 		log.debug("UserController.findByUserName: START");
 		User user = userRepository.findByUsername(username);
+		if (user == null) {
+			log.info("User with username {} not found.", username);
+			return ResponseEntity.notFound().build();
+		}
+		log.info("User with username {} found.", username);
 		log.debug("UserController.findByUserName: END");
-		return user == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(user);
+		return ResponseEntity.ok(user);
 	}
 
 	@PostMapping("/create")
 	public ResponseEntity<User> createUser(@RequestBody CreateUserRequest createUserRequest) {
 		log.debug("UserController.createUser: START ");
-		log.debug("UserController.createUser: ", createUserRequest.getUsername());
+		log.info("UserController.createUser: {}", createUserRequest.getUsername());
 		User user = new User();
 		user.setUsername(createUserRequest.getUsername());
 		Cart cart = new Cart();
 		cartRepository.save(cart);
 		user.setCart(cart);
 		if (createUserRequest.getPassword().length() < 8) {
-			log.debug("Password can not less than 8 characters.");
-			log.debug("UserController.createUser: END ");
+			log.info("Password can not less than 8 characters.");
+			log.info("UserController.createUser: END ");
+			return ResponseEntity.badRequest().build();
+		} else if (!createUserRequest.getPassword().equals(createUserRequest.getConfirmPassword())){
+			log.info("Password does not match");
+			log.info("UserController.createUser: END ");
 			return ResponseEntity.badRequest().build();
 		}
-
 		user.setPassword(bCryptPasswordEncoder.encode(createUserRequest.getPassword()));
 		userRepository.save(user);
-		log.info("UserController.createUser: Created user ", createUserRequest.getUsername());
+		log.info("UserController.createUser: Created user {} successfully.", createUserRequest.getUsername());
 		log.debug("UserController.createUser: END ");
 		return ResponseEntity.ok(user);
 	}

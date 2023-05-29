@@ -51,8 +51,8 @@ public class ItemTest {
         ResponseEntity<Item> response = itemController.getItemById(1L);
         assertNotNull(response);
         assertEquals(200, response.getStatusCodeValue());
-        Item i = response.getBody();
-        assertNotNull(i);
+        Item item = response.getBody();
+        assertNotNull(item);
     }
 
     @Test

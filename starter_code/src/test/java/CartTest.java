@@ -56,28 +56,27 @@ public class CartTest {
     @Test
     public void addToCartOK() {
         setUp();
-        ModifyCartRequest r = new ModifyCartRequest();
-        r.setItemId(1L);
-        r.setQuantity(1);
-        r.setUsername("test");
-        ResponseEntity<Cart> response = cartController.addTocart(r);
+        ModifyCartRequest modifyCartRequest = new ModifyCartRequest();
+        modifyCartRequest.setItemId(1L);
+        modifyCartRequest.setQuantity(1);
+        modifyCartRequest.setUsername("test");
+        ResponseEntity<Cart> response = cartController.addTocart(modifyCartRequest);
 
         assertNotNull(response);
         assertEquals(200, response.getStatusCodeValue());
-        Cart c = response.getBody();
-        assertNotNull(c);
-        assertEquals(BigDecimal.valueOf(2.99), c.getTotal());
-
+        Cart cart = response.getBody();
+        assertNotNull(cart);
+        assertEquals(BigDecimal.valueOf(2.99), cart.getTotal());
     }
 
     @Test
     public void addToCartWrongUser() {
         setUp();
-        ModifyCartRequest r = new ModifyCartRequest();
-        r.setItemId(1L);
-        r.setQuantity(1);
-        r.setUsername("username");
-        ResponseEntity<Cart> response = cartController.addTocart(r);
+        ModifyCartRequest modifyCartRequest = new ModifyCartRequest();
+        modifyCartRequest.setItemId(1L);
+        modifyCartRequest.setQuantity(1);
+        modifyCartRequest.setUsername("username");
+        ResponseEntity<Cart> response = cartController.addTocart(modifyCartRequest);
 
         assertNotNull(response);
         assertEquals(404, response.getStatusCodeValue());
@@ -86,11 +85,11 @@ public class CartTest {
     @Test
     public void addToCartNotFoundItem() {
         setUp();
-        ModifyCartRequest r = new ModifyCartRequest();
-        r.setItemId(2L);
-        r.setQuantity(1);
-        r.setUsername("test");
-        ResponseEntity<Cart> response = cartController.addTocart(r);
+        ModifyCartRequest modifyCartRequest = new ModifyCartRequest();
+        modifyCartRequest.setItemId(2L);
+        modifyCartRequest.setQuantity(1);
+        modifyCartRequest.setUsername("test");
+        ResponseEntity<Cart> response = cartController.addTocart(modifyCartRequest);
 
         assertNotNull(response);
         assertEquals(404, response.getStatusCodeValue());
@@ -100,36 +99,36 @@ public class CartTest {
     public void removeFromCartOK() {
         setUp();
         // Set up test by adding two items to cart.
-        ModifyCartRequest r = new ModifyCartRequest();
-        r.setItemId(1L);
-        r.setQuantity(2);
-        r.setUsername("test");
-        ResponseEntity<Cart> response = cartController.addTocart(r);
+        ModifyCartRequest modifyCartRequest = new ModifyCartRequest();
+        modifyCartRequest.setItemId(1L);
+        modifyCartRequest.setQuantity(2);
+        modifyCartRequest.setUsername("test");
+        ResponseEntity<Cart> response = cartController.addTocart(modifyCartRequest);
         assertNotNull(response);
         assertEquals(200, response.getStatusCodeValue());
 
-        r = new ModifyCartRequest();
-        r.setItemId(1L);
-        r.setQuantity(1);
-        r.setUsername("test");
-        response = cartController.removeFromcart(r);
+        modifyCartRequest = new ModifyCartRequest();
+        modifyCartRequest.setItemId(1L);
+        modifyCartRequest.setQuantity(1);
+        modifyCartRequest.setUsername("test");
+        response = cartController.removeFromcart(modifyCartRequest);
 
         assertNotNull(response);
         assertEquals(200, response.getStatusCodeValue());
-        Cart c = response.getBody();
-        assertNotNull(c);
-        assertEquals(BigDecimal.valueOf(2.99), c.getTotal());
+        Cart cart = response.getBody();
+        assertNotNull(cart);
+        assertEquals(BigDecimal.valueOf(2.99), cart.getTotal());
 
     }
 
     @Test
     public void removeFromCartInvalidUser() {
         setUp();
-        ModifyCartRequest r = new ModifyCartRequest();
-        r.setItemId(1L);
-        r.setQuantity(1);
-        r.setUsername("username");
-        ResponseEntity<Cart> response = cartController.removeFromcart(r);
+        ModifyCartRequest modifyCartRequest = new ModifyCartRequest();
+        modifyCartRequest.setItemId(1L);
+        modifyCartRequest.setQuantity(1);
+        modifyCartRequest.setUsername("username");
+        ResponseEntity<Cart> response = cartController.removeFromcart(modifyCartRequest);
 
         assertNotNull(response);
         assertEquals(404, response.getStatusCodeValue());
@@ -138,11 +137,11 @@ public class CartTest {
     @Test
     public void removeFromCartInvalidItem() {
         setUp();
-        ModifyCartRequest r = new ModifyCartRequest();
-        r.setItemId(2L);
-        r.setQuantity(1);
-        r.setUsername("test");
-        ResponseEntity<Cart> response = cartController.removeFromcart(r);
+        ModifyCartRequest modifyCartRequest = new ModifyCartRequest();
+        modifyCartRequest.setItemId(2L);
+        modifyCartRequest.setQuantity(1);
+        modifyCartRequest.setUsername("test");
+        ResponseEntity<Cart> response = cartController.removeFromcart(modifyCartRequest);
 
         assertNotNull(response);
         assertEquals(404, response.getStatusCodeValue());

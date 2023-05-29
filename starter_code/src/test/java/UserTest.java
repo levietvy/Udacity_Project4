@@ -49,17 +49,18 @@ public class UserTest {
     void testCreateUserValidRequest() {
         // Arrange
         when(bCryptPasswordEncoder.encode("testPassword")).thenReturn("hashPassword");
-        CreateUserRequest r = new CreateUserRequest();
-        r.setUsername("test");
-        r.setPassword("testPassword");
-        final ResponseEntity<User> response = userController.createUser(r);
+        CreateUserRequest createUserRequest = new CreateUserRequest();
+        createUserRequest.setUsername("test");
+        createUserRequest.setPassword("testPassword");
+        createUserRequest.setConfirmPassword("testPassword");
+        final ResponseEntity<User> response = userController.createUser(createUserRequest);
         assertNotNull(response);
         assertEquals(200, response.getStatusCodeValue());
-        User u = response.getBody();
-        assertNotNull(u);
-        assertEquals(0, u.getId());
-        assertEquals("test", u.getUsername());
-        assertEquals("hashPassword", u.getPassword());
+        User user = response.getBody();
+        assertNotNull(user);
+        assertEquals(0, user.getId());
+        assertEquals("test", user.getUsername());
+        assertEquals("hashPassword", user.getPassword());
     }
 
     @Test
@@ -74,9 +75,9 @@ public class UserTest {
         final ResponseEntity<User> response = userController.findById(0L);
         assertNotNull(response);
         assertEquals(200, response.getStatusCodeValue());
-        User u = response.getBody();
-        assertNotNull(u);
-        assertEquals(0, u.getId());;
+        User user = response.getBody();
+        assertNotNull(user);
+        assertEquals(0, user.getId());;
     }
 
     @Test
@@ -84,9 +85,9 @@ public class UserTest {
         final ResponseEntity<User> response = userController.findByUserName("test");
         assertNotNull(response);
         assertEquals(200, response.getStatusCodeValue());
-        User u = response.getBody();
-        assertNotNull(u);
-        assertEquals("test", u.getUsername());
+        User user = response.getBody();
+        assertNotNull(user);
+        assertEquals("test", user.getUsername());
     }
 
     @Test

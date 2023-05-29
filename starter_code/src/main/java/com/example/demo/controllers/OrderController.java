@@ -41,14 +41,14 @@ public class OrderController {
 		log.debug("OrderController.submit: START");
 		User user = userRepository.findByUsername(username);
 		if(user == null) {
-			log.debug("OrderController.submit: Cant find user.");
-			log.debug("OrderController.submit: Order failed.");
+			log.info("OrderController.submit: Cant find user.");
+			log.info("OrderController.submit: Order failed.");
 			log.debug("OrderController.submit: END");
 			return ResponseEntity.notFound().build();
 		}
 		UserOrder order = UserOrder.createFromCart(user.getCart());
 		orderRepository.save(order);
-		log.debug("OrderController.submit: Order successfully.");
+		log.info("OrderController.submit: Order successfully.");
 		log.debug("OrderController.submit: END");
 		return ResponseEntity.ok(order);
 	}
@@ -58,12 +58,12 @@ public class OrderController {
 		log.debug("OrderController.getOrdersForUser: START");
 		User user = userRepository.findByUsername(username);
 		if(user == null) {
-			log.debug("OrderController.getOrdersForUser: Cant find user.");
-			log.debug("OrderController.getOrdersForUser: END");
+			log.info("OrderController.getOrdersForUser: Cant find user.");
+			log.info("OrderController.getOrdersForUser: END");
 			return ResponseEntity.notFound().build();
 		}
 		List<UserOrder> userOrderList = orderRepository.findByUser(user);
-		log.debug("OrderController.getOrdersForUser: Order of user: " + userOrderList.toString());
+		log.info("OrderController.getOrdersForUser: Order of user: " + userOrderList.toString());
 		log.debug("OrderController.getOrdersForUser: END");
 		return ResponseEntity.ok(userOrderList);
 	}
