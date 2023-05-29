@@ -11,4 +11,7 @@ public class CreateUserRequest {
 
 	@JsonProperty
 	private String password;
+
+	@JsonProperty
+	private String confirmPassword;
 }
